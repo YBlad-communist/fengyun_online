@@ -15,7 +15,7 @@
 <!-- Ticker tape -->
 <div class="ticker" aria-hidden="true">
   <span class="ticker-inner">
-    Товары из Китая, Японии, Кореи, Таиланда &nbsp;·&nbsp; Цены ещё ниже в Фэнъюнь! &nbsp;·&nbsp; Самовывоз: Находка-Мега · Клён · Меридиан · Экодом &nbsp;·&nbsp; Telegram: @fengyunasia &nbsp;·&nbsp; Товары из Китая, Японии, Кореи, Таиланда &nbsp;·&nbsp;
+     Товары из Китая, Японии, Кореи, Таиланда &nbsp;·&nbsp; Цены ещё ниже в Фэнъюнь! &nbsp;·&nbsp; Самовывоз: Находка-Мега · Клён &nbsp;·&nbsp; Telegram: @fengyunasia &nbsp;·&nbsp; Товары из Китая, Японии, Кореи, Таиланда &nbsp;·&nbsp;
   </span>
 </div>
 
@@ -48,6 +48,7 @@
         <li class="nav-item">
           <a class="nav-link-fy position-relative {% if request.resolver_match.url_name == 'cart' %}active{% endif %}" href="{% url 'cart' %}">
             <i class="bi bi-bag-fill" style="font-size:1.1rem;"></i>
+            <span class="nav-cart-text">Корзина</span>
             {% if cart_count %}<span class="cart-pill">{{ cart_count }}</span>{% endif %}
           </a>
         </li>
@@ -80,7 +81,7 @@
     <div class="row g-3 align-items-center">
       <div class="col-md-4">
         <div class="footer-brand mb-1">ФЭНЪЮНЬ</div>
-        <div style="font-size:0.78rem;opacity:0.55;">Азиатские товары в Находке</div>
+        <div style="font-size:0.78rem;opacity:0.55;">Азиатские товары в России</div>
       </div>
       <div class="col-md-4" style="font-size:0.82rem;line-height:2.3;">
         <a href="{% url 'catalog' %}">Каталог</a> &nbsp;·&nbsp;

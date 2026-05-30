@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Country, Category, Product, PickupPoint, Order, OrderItem, UserProfile, Review
+from .models import Country, Category, Product, PickupPoint, City, Order, OrderItem, UserProfile, Review
 
 
 @admin.register(Country)
@@ -21,9 +21,15 @@ class ProductAdmin(admin.ModelAdmin):
     search_fields = ['name', 'description']
 
 
+@admin.register(City)
+class CityAdmin(admin.ModelAdmin):
+    list_display = ['name']
+
+
 @admin.register(PickupPoint)
 class PickupPointAdmin(admin.ModelAdmin):
-    list_display = ['name', 'address', 'is_active']
+    list_display = ['name', 'city', 'address', 'is_active']
+    list_filter = ['city']
 
 
 class OrderItemInline(admin.TabularInline):

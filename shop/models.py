@@ -48,11 +48,22 @@ class Product(models.Model):
         return self.name
 
 
+class City(models.Model):
+    name = models.CharField('Город', max_length=100)
+
+    class Meta:
+        verbose_name = 'Город'
+        verbose_name_plural = 'Города'
+        ordering = ['name']
+
+    def __str__(self):
+        return self.name
+
+
 class PickupPoint(models.Model):
     name = models.CharField('Название', max_length=100)
+    city = models.ForeignKey(City, on_delete=models.SET_NULL, verbose_name='Город', related_name='pickup_points', null=True)
     address = models.CharField('Адрес', max_length=255)
-    lat = models.FloatField('Широта')
-    lng = models.FloatField('Долгота')
     is_active = models.BooleanField('Активна', default=True)
 
     class Meta:
@@ -60,7 +71,7 @@ class PickupPoint(models.Model):
         verbose_name_plural = 'Точки выдачи'
 
     def __str__(self):
-        return self.name
+        return f'{self.name} ({self.city.name})'
 
 
 class Order(models.Model):

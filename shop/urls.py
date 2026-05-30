@@ -17,6 +17,7 @@ urlpatterns = [
     path('order/<int:pk>/success/', views.order_success, name='order_success'),
 
     path('stores/', views.stores, name='stores'),
+    path('api/pickup-points/', views.api_pickup_points, name='api_pickup_points'),
 
     path('account/', views.account_view, name='account'),
     path('account/login/', views.login_view, name='login'),

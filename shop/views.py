@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 from collections import Counter
 
 from django.shortcuts import render, get_object_or_404, redirect
-from django.http import Http404
+from django.http import Http404, JsonResponse
 from django.views.decorators.http import require_POST
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
@@ -16,7 +16,7 @@ import requests as req_lib
 LOGIN_MAX_ATTEMPTS = 5
 LOGIN_LOCKOUT_MINUTES = 15
 
-from .models import Product, Country, PickupPoint, Order, OrderItem, UserProfile, Review
+from .models import Product, Country, PickupPoint, City, Order, OrderItem, UserProfile, Review
 from .forms import OrderForm, RegisterForm, ProfileForm, ReviewForm
 
 
@@ -283,8 +283,17 @@ def send_telegram_notification(order):
 # ─── Stores map ──────────────────────────────────────────────────────────────
 
 def stores(request):
+    cities = City.objects.all()
+    return render(request, 'shop/stores.html', {'cities': cities})
+
+
+def api_pickup_points(request):
+    city_id = request.GET.get('city')
     points = PickupPoint.objects.filter(is_active=True)
-    return render(request, 'shop/stores.html', {'points': points})
+    if city_id:
+        points = points.filter(city_id=city_id)
+    data = [{'id': p.pk, 'name': p.name, 'address': p.address, 'city': p.city.name} for p in points]
+    return JsonResponse(data, safe=False)
 
 
 # ─── Account ─────────────────────────────────────────────────────────────────
