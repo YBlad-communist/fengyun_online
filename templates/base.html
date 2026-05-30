@@ -98,6 +98,23 @@
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.product-card-name').forEach(function(el) {
+    if (el.scrollHeight > el.clientHeight) {
+      var btn = document.createElement('span');
+      btn.className = 'product-card-name-more';
+      btn.textContent = 'далее';
+      btn.onclick = function(e) {
+        e.stopPropagation();
+        el.classList.toggle('expanded');
+        btn.textContent = el.classList.contains('expanded') ? 'назад' : 'далее';
+      };
+      el.after(btn);
+    }
+  });
+});
+</script>
 {% block extra_js %}{% endblock %}
 </body>
 </html>
