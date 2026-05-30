@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}Магазины — Фэнъюнь{% endblock %}
+{% block extra_head %}<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div class="container">
+    <h1>Точки <span>выдачи</span></h1>
+    <p>Находка, Приморский край · 4 магазина</p>
+  </div>
+</div>
+
+<div class="container py-4">
+  <div class="row g-4">
+    <div class="col-lg-8">
+      <div id="stores-map"></div>
+    </div>
+    <div class="col-lg-4">
+      {% for p in points %}
+      <div class="fy-card mb-3 store-point" data-lat="{{ p.lat }}" data-lng="{{ p.lng }}" style="cursor:pointer;transition:border-color 0.2s;">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+          <div style="width:28px;height:28px;background:var(--yellow);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.75rem;flex-shrink:0;">🛍️</div>
+          <div style="font-family:var(--font-main);font-weight:900;font-size:0.95rem;">{{ p.name }}</div>
+        </div>
+        <div style="font-size:0.82rem;color:var(--gray-dark);padding-left:36px;">
+          <i class="bi bi-geo-alt-fill" style="color:var(--yellow);"></i> {{ p.address }}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+const points = [{% for p in points %}{ name:"{{ p.name|escapejs }}", address:"{{ p.address|escapejs }}", lat:{{ p.lat }}, lng:{{ p.lng }} },{% endfor %}];
+const map = L.map('stores-map').setView([42.82, 132.88], 12);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution:'© OpenStreetMap' }).addTo(map);
+const icon = L.divIcon({
+  html:'<div style="background:#F9C900;width:34px;height:34px;border-radius:50%;border:3px solid #1A1A1A;display:flex;align-items:center;justify-content:center;font-size:1rem;box-shadow:0 2px 8px rgba(0,0,0,0.25);">🛍️</div>',
+  className:'', iconSize:[34,34], iconAnchor:[17,17]
+});
+points.forEach(p => L.marker([p.lat, p.lng], {icon}).addTo(map).bindPopup(`<b>${p.name}</b><br><small>${p.address}</small>`));
+document.querySelectorAll('.store-point').forEach(el => {
+  el.addEventListener('click', () => {
+    map.setView([parseFloat(el.dataset.lat), parseFloat(el.dataset.lng)], 15);
+    document.querySelectorAll('.store-point').forEach(e => e.style.borderColor='');
+    el.style.borderColor = 'var(--yellow)';
+  });
+});
+</script>
+{% endblock %}

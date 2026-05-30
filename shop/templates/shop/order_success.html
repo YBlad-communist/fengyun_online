@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Заказ оформлен — Фэнъюнь{% endblock %}
+
+{% block content %}
+<div class="container py-5 text-center">
+  <div class="success-icon">🎉</div>
+  <h2 style="font-family:var(--font-display);font-weight:900;letter-spacing:-0.02em;">
+    Заказ <span style="color:var(--black);">№{{ order.pk }}</span> принят!
+  </h2>
+  <p style="color:var(--gray-dark);margin-top:8px;margin-bottom:1.5rem;">Мы свяжемся с вами по номеру <strong>{{ order.phone }}</strong></p>
+
+  <div class="fy-card d-inline-block text-start" style="min-width:300px;">
+    <div class="mb-2"><i class="bi bi-person"></i> <strong>{{ order.name }}</strong></div>
+    <div class="mb-2"><i class="bi bi-geo-alt"></i> {{ order.pickup_point }}</div>
+    <div><i class="bi bi-currency-exchange"></i> Итого: <strong style="font-family:var(--font-display);">{{ order.total }} ₽</strong></div>
+  </div>
+
+  <div class="mt-4 d-flex gap-3 justify-content-center flex-wrap">
+    <a href="{% url 'index' %}" class="btn-fy">Продолжить покупки</a>
+    {% if user.is_authenticated %}
+    <a href="{% url 'account' %}" class="btn-fy-outline">Мои заказы</a>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

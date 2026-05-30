@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Страница не найдена — Фэнъюнь{% endblock %}
+{% block content %}
+<div class="container py-5 text-center">
+  <div style="font-size:5rem;margin-bottom:1rem;">🔍</div>
+  <h2 style="font-family:var(--font-main);font-weight:900;">Страница не найдена</h2>
+  <p style="color:var(--gray-dark);margin-top:8px;">Такой страницы нет на сайте</p>
+  <a href="{% url 'index' %}" class="btn-fy mt-3">На главную</a>
+</div>
+{% endblock %}

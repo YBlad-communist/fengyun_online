@@ -1,0 +1,103 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Фэнъюнь — азиатские товары{% endblock %}</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  {% block extra_head %}{% endblock %}
+</head>
+<body>
+
+<!-- Ticker tape -->
+<div class="ticker" aria-hidden="true">
+  <span class="ticker-inner">
+    🇨🇳 Товары из Китая &nbsp;·&nbsp; 🇯🇵 Товары из Японии &nbsp;·&nbsp; 🇰🇷 Товары из Кореи &nbsp;·&nbsp; 🇹🇭 Товары из Таиланда &nbsp;·&nbsp; Цены ещё ниже в Фэнъюнь! &nbsp;·&nbsp; Самовывоз: Находка-Мега · Клён · Меридиан · Экодом &nbsp;·&nbsp; Telegram: @fengyunasia &nbsp;·&nbsp; 🇨🇳 Товары из Китая &nbsp;·&nbsp; 🇯🇵 Товары из Японии &nbsp;·&nbsp; 🇰🇷 Товары из Кореи &nbsp;·&nbsp;
+  </span>
+</div>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-fengyun sticky-top">
+  <div class="container">
+    <a class="brand-wrap" href="{% url 'index' %}">
+      <div class="brand-logo-circle">
+        <img src="{% static 'img/logo.png' %}" alt="Фэнъюнь">
+      </div>
+      <div>
+        <div class="brand-name">ФЭНЪЮНЬ</div>
+        <span class="brand-name-cn">风云 · fengyun · @fengyunasia</span>
+      </div>
+    </a>
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMain">
+      <i class="bi bi-list" style="color:var(--yellow);font-size:1.6rem;"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navMain">
+      <!-- Search bar -->
+      <form class="navbar-search mx-auto" action="{% url 'catalog' %}" method="get">
+        <i class="bi bi-search search-icon"></i>
+        <input type="text" name="q" placeholder="Поиск товаров..." value="{{ request.GET.q }}" class="search-input">
+      </form>
+      <ul class="navbar-nav ms-auto align-items-lg-center">
+        <li class="nav-item"><a class="nav-link-fy {% if request.resolver_match.url_name == 'index' %}active{% endif %}" href="{% url 'index' %}">Главная</a></li>
+        <li class="nav-item"><a class="nav-link-fy {% if request.resolver_match.url_name == 'catalog' %}active{% endif %}" href="{% url 'catalog' %}">Каталог</a></li>
+        <li class="nav-item"><a class="nav-link-fy {% if request.resolver_match.url_name == 'preorder' %}active{% endif %}" href="{% url 'preorder' %}">Под заказ</a></li>
+        <li class="nav-item"><a class="nav-link-fy {% if request.resolver_match.url_name == 'stores' %}active{% endif %}" href="{% url 'stores' %}">Магазины</a></li>
+        <li class="nav-item">
+          <a class="nav-link-fy position-relative {% if request.resolver_match.url_name == 'cart' %}active{% endif %}" href="{% url 'cart' %}">
+            <i class="bi bi-bag-fill" style="font-size:1.1rem;"></i>
+            {% if cart_count %}<span class="cart-pill">{{ cart_count }}</span>{% endif %}
+          </a>
+        </li>
+        {% if user.is_authenticated %}
+        <li class="nav-item"><a class="nav-link-fy" href="{% url 'account' %}"><i class="bi bi-person-fill"></i> {{ user.username }}</a></li>
+        <li class="nav-item"><a class="nav-link-fy" href="{% url 'logout' %}" title="Выйти"><i class="bi bi-box-arrow-right"></i></a></li>
+        {% else %}
+        <li class="nav-item ms-2"><a href="{% url 'login' %}" class="btn-fy" style="padding:7px 16px;font-size:0.78rem;">Войти</a></li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>
+
+{% if messages %}
+<div class="django-messages">
+  {% for message in messages %}
+  <div class="alert alert-{% if message.tags == 'error' %}danger{% elif message.tags == 'success' %}success{% else %}warning{% endif %} alert-dismissible fade show shadow-sm" role="alert" style="border-radius:10px;font-size:0.88rem;">
+    {{ message }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+
+{% block content %}{% endblock %}
+
+<footer class="footer">
+  <div class="container">
+    <div class="row g-3 align-items-center">
+      <div class="col-md-4">
+        <div class="footer-brand mb-1">風 ФЭНЪЮНЬ</div>
+        <div style="font-size:0.78rem;opacity:0.55;">Азиатские товары в Находке</div>
+      </div>
+      <div class="col-md-4" style="font-size:0.82rem;line-height:2.3;">
+        <a href="{% url 'catalog' %}">Каталог</a> &nbsp;·&nbsp;
+        <a href="{% url 'preorder' %}">Под заказ</a> &nbsp;·&nbsp;
+        <a href="{% url 'stores' %}">Магазины</a> &nbsp;·&nbsp;
+        <a href="{% url 'account' %}">Кабинет</a>
+      </div>
+      <div class="col-md-4 text-md-end">
+        <a href="https://t.me/fengyunasia" target="_blank" class="btn-fy-outline" style="font-size:0.75rem;">
+          <i class="bi bi-telegram"></i> @fengyunasia
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+{% block extra_js %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Вход — Фэнъюнь{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+  <div class="auth-card">
+    <div class="fy-card">
+      <h3 style="font-family:var(--font-display);font-weight:900;margin-bottom:1.5rem;">Вход</h3>
+      <form method="post">
+        {% csrf_token %}
+        {% if request.GET.next %}<input type="hidden" name="next" value="{{ request.GET.next }}">{% endif %}
+        <div class="mb-3">
+          <label class="form-label">Логин</label>
+          <input type="text" name="username" class="form-control" autofocus>
+        </div>
+        <div class="mb-4">
+          <label class="form-label">Пароль</label>
+          <input type="password" name="password" class="form-control">
+        </div>
+        {% if form.errors %}
+        <div class="alert py-2 mb-3" style="font-size:0.85rem;background:var(--yellow-light);border:1px solid var(--yellow);border-radius:var(--radius-sm);">Неверный логин или пароль</div>
+        {% endif %}
+        <button type="submit" class="btn-fy" style="width:100%;padding:12px;">Войти</button>
+      </form>
+      <hr>
+      <div class="text-center">
+        <span style="font-size:0.85rem;color:var(--gray-dark);">Нет аккаунта?</span>
+        <a href="{% url 'register' %}" class="btn-fy-outline ms-2" style="font-size:0.8rem;padding:6px 14px;">Зарегистрироваться</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

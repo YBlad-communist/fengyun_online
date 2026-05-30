@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Регистрация — Фэнъюнь{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+  <div class="auth-card">
+    <div class="fy-card">
+      <h3 style="font-family:var(--font-display);font-weight:900;margin-bottom:1.5rem;">Регистрация</h3>
+      <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+          <label class="form-label">Логин</label>
+          {{ form.username }}
+          {% if form.username.errors %}<div style="font-size:0.8rem;color:var(--yellow-mustard);">{{ form.username.errors|join:", " }}</div>{% endif %}
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Email</label>
+          {{ form.email }}
+          {% if form.email.errors %}<div style="font-size:0.8rem;color:var(--yellow-mustard);">{{ form.email.errors|join:", " }}</div>{% endif %}
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Пароль</label>
+          {{ form.password1 }}
+          {% if form.password1.errors %}<div style="font-size:0.8rem;color:var(--yellow-mustard);">{{ form.password1.errors|join:", " }}</div>{% endif %}
+        </div>
+        <div class="mb-4">
+          <label class="form-label">Повторите пароль</label>
+          {{ form.password2 }}
+          {% if form.password2.errors %}<div style="font-size:0.8rem;color:var(--yellow-mustard);">{{ form.password2.errors|join:", " }}</div>{% endif %}
+        </div>
+        <button type="submit" class="btn-fy" style="width:100%;padding:12px;">Зарегистрироваться</button>
+      </form>
+      <hr>
+      <div class="text-center">
+        <span style="font-size:0.85rem;color:var(--gray-dark);">Уже есть аккаунт?</span>
+        <a href="{% url 'login' %}" class="btn-fy-outline ms-2" style="font-size:0.8rem;padding:6px 14px;">Войти</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

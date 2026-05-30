@@ -1,0 +1,294 @@
+[
+  {
+    "model": "shop.country",
+    "pk": 1,
+    "fields": {
+      "name": "Китай",
+      "code": "CN",
+      "flag_emoji": "🇨🇳"
+    }
+  },
+  {
+    "model": "shop.country",
+    "pk": 2,
+    "fields": {
+      "name": "Япония",
+      "code": "JP",
+      "flag_emoji": "🇯🇵"
+    }
+  },
+  {
+    "model": "shop.country",
+    "pk": 3,
+    "fields": {
+      "name": "Корея",
+      "code": "KR",
+      "flag_emoji": "🇰🇷"
+    }
+  },
+  {
+    "model": "shop.country",
+    "pk": 4,
+    "fields": {
+      "name": "Таиланд",
+      "code": "TH",
+      "flag_emoji": "🇹🇭"
+    }
+  },
+  {
+    "model": "shop.category",
+    "pk": 1,
+    "fields": {
+      "name": "Продукты питания",
+      "slug": "food"
+    }
+  },
+  {
+    "model": "shop.category",
+    "pk": 2,
+    "fields": {
+      "name": "Косметика",
+      "slug": "cosmetics"
+    }
+  },
+  {
+    "model": "shop.category",
+    "pk": 3,
+    "fields": {
+      "name": "Электроника",
+      "slug": "electronics"
+    }
+  },
+  {
+    "model": "shop.category",
+    "pk": 4,
+    "fields": {
+      "name": "Одежда",
+      "slug": "clothing"
+    }
+  },
+  {
+    "model": "shop.pickuppoint",
+    "pk": 1,
+    "fields": {
+      "name": "Находка-Мега",
+      "address": "г. Находка, ул. Находкинский пр-т, 1",
+      "lat": 42.8344,
+      "lng": 132.873,
+      "is_active": true
+    }
+  },
+  {
+    "model": "shop.pickuppoint",
+    "pk": 2,
+    "fields": {
+      "name": "Клён",
+      "address": "г. Находка, ул. Портовая, 5",
+      "lat": 42.82,
+      "lng": 132.885,
+      "is_active": true
+    }
+  },
+  {
+    "model": "shop.pickuppoint",
+    "pk": 3,
+    "fields": {
+      "name": "Меридиан",
+      "address": "г. Находка, ул. Пограничная, 12",
+      "lat": 42.815,
+      "lng": 132.91,
+      "is_active": true
+    }
+  },
+  {
+    "model": "shop.pickuppoint",
+    "pk": 4,
+    "fields": {
+      "name": "Экодом",
+      "address": "г. Находка, пр-т Мира, 8",
+      "lat": 42.805,
+      "lng": 132.86,
+      "is_active": true
+    }
+  },
+  {
+    "model": "shop.product",
+    "pk": 1,
+    "fields": {
+      "name": "Лапша быстрого приготовления Tom Yum",
+      "description": "Острая тайская лапша с креветками",
+      "price": "89.00",
+      "image": "",
+      "country": 4,
+      "category": 1,
+      "in_stock": true,
+      "is_active": true,
+      "created_at": "2025-01-01T12:00:00Z"
+    }
+  },
+  {
+    "model": "shop.product",
+    "pk": 2,
+    "fields": {
+      "name": "Соус Hoisin Lee Kum Kee",
+      "description": "Хойсин соус для блюд китайской кухни, 260г",
+      "price": "245.00",
+      "image": "",
+      "country": 1,
+      "category": 1,
+      "in_stock": true,
+      "is_active": true,
+      "created_at": "2025-01-01T12:00:00Z"
+    }
+  },
+  {
+    "model": "shop.product",
+    "pk": 3,
+    "fields": {
+      "name": "Мисо-суп Marukome",
+      "description": "Быстрый мисо-суп в пакетах, набор 8шт",
+      "price": "320.00",
+      "image": "",
+      "country": 2,
+      "category": 1,
+      "in_stock": true,
+      "is_active": true,
+      "created_at": "2025-01-01T12:00:00Z"
+    }
+  },
+  {
+    "model": "shop.product",
+    "pk": 4,
+    "fields": {
+      "name": "Маска для лица COSRX",
+      "description": "Увлажняющая маска с улиточным муцином",
+      "price": "550.00",
+      "image": "",
+      "country": 3,
+      "category": 2,
+      "in_stock": true,
+      "is_active": true,
+      "created_at": "2025-01-01T12:00:00Z"
+    }
+  },
+  {
+    "model": "shop.product",
+    "pk": 5,
+    "fields": {
+      "name": "Кимчи Jongga классическое",
+      "description": "Традиционная корейская квашеная капуста, 500г",
+      "price": "380.00",
+      "image": "",
+      "country": 3,
+      "category": 1,
+      "in_stock": true,
+      "is_active": true,
+      "created_at": "2025-01-01T12:00:00Z"
+    }
+  },
+  {
+    "model": "shop.product",
+    "pk": 6,
+    "fields": {
+      "name": "Зелёный чай Sencha Premium",
+      "description": "Японский зелёный чай высшего сорта, 100г",
+      "price": "420.00",
+      "image": "",
+      "country": 2,
+      "category": 1,
+      "in_stock": true,
+      "is_active": true,
+      "created_at": "2025-01-01T12:00:00Z"
+    }
+  },
+  {
+    "model": "shop.product",
+    "pk": 7,
+    "fields": {
+      "name": "Сыворотка SOME BY MI",
+      "description": "Осветляющая сыворотка с ниацинамидом 30мл",
+      "price": "890.00",
+      "image": "",
+      "country": 3,
+      "category": 2,
+      "in_stock": true,
+      "is_active": true,
+      "created_at": "2025-01-01T12:00:00Z"
+    }
+  },
+  {
+    "model": "shop.product",
+    "pk": 8,
+    "fields": {
+      "name": "Попкорн с васаби",
+      "description": "Хрустящий попкорн с вкусом васаби, 80г",
+      "price": "120.00",
+      "image": "",
+      "country": 2,
+      "category": 1,
+      "in_stock": true,
+      "is_active": true,
+      "created_at": "2025-01-01T12:00:00Z"
+    }
+  },
+  {
+    "model": "shop.product",
+    "pk": 9,
+    "fields": {
+      "name": "Рисовые чипсы Lay's Asia",
+      "description": "Чипсы из рисовой муки с морскими водорослями",
+      "price": "95.00",
+      "image": "",
+      "country": 1,
+      "category": 1,
+      "in_stock": true,
+      "is_active": true,
+      "created_at": "2025-01-01T12:00:00Z"
+    }
+  },
+  {
+    "model": "shop.product",
+    "pk": 10,
+    "fields": {
+      "name": "Матча латте Ito En",
+      "description": "Порошок матча премиум, 100г — под заказ",
+      "price": "650.00",
+      "image": "",
+      "country": 2,
+      "category": 1,
+      "in_stock": false,
+      "is_active": true,
+      "created_at": "2025-01-01T12:00:00Z"
+    }
+  },
+  {
+    "model": "shop.product",
+    "pk": 11,
+    "fields": {
+      "name": "Увлажнитель воздуха Xiaomi",
+      "description": "Ультразвуковой увлажнитель с Wi-Fi — под заказ",
+      "price": "3200.00",
+      "image": "",
+      "country": 1,
+      "category": 3,
+      "in_stock": false,
+      "is_active": true,
+      "created_at": "2025-01-01T12:00:00Z"
+    }
+  },
+  {
+    "model": "shop.product",
+    "pk": 12,
+    "fields": {
+      "name": "Одежда Uniqlo Heattech",
+      "description": "Термобельё Heattech Extra Warm — под заказ",
+      "price": "1800.00",
+      "image": "",
+      "country": 2,
+      "category": 4,
+      "in_stock": false,
+      "is_active": true,
+      "created_at": "2025-01-01T12:00:00Z"
+    }
+  }
+]
