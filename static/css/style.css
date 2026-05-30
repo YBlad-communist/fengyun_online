@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&family=Noto+Sans+SC:wght@400;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&display=swap');
 
 :root {
   --black: #1A1A1A;
@@ -13,8 +13,6 @@
   --yellow-shelf: #E8B400;
   --border-light: #F0EDE6;
   --font-main: 'Nunito', sans-serif;
-  --font-cn: 'Noto Sans SC', sans-serif;
-  --font-display: 'Nunito', sans-serif;
   --yellow-light: #FFF8E0;
   --yellow-mustard: #B8860B;
   --radius: 10px;
@@ -74,7 +72,7 @@ a { text-decoration: none; color: inherit; }
 }
 
 .brand-name-cn {
-  font-family: var(--font-cn);
+  font-family: var(--font-main);
   font-size: 0.55rem;
   color: rgba(0,0,0,0.35);
   letter-spacing: 0.15em;
@@ -230,13 +228,12 @@ a { text-decoration: none; color: inherit; }
 }
 
 .hero-tagline {
-  font-family: var(--font-cn);
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 0.2em;
-  color: rgba(0,0,0,0.45);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  color: rgba(0,0,0,0.5);
   text-transform: uppercase;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
 }
 
 .hero-h1 {
@@ -335,10 +332,9 @@ a { text-decoration: none; color: inherit; }
 }
 
 .section-header h2 {
-  font-family: var(--font-main);
   font-weight: 900;
-  font-size: 1.15rem;
-  letter-spacing: -0.01em;
+  font-size: 1.1rem;
+  letter-spacing: -0.02em;
   margin: 0;
   white-space: nowrap;
 }
@@ -393,7 +389,7 @@ a { text-decoration: none; color: inherit; }
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: var(--font-cn);
+  font-family: var(--font-main);
   font-size: 3.5rem;
   color: var(--yellow-dark);
 }
@@ -416,19 +412,19 @@ a { text-decoration: none; color: inherit; }
 }
 
 .product-card-body {
-  padding: 10px;
+  padding: 10px 10px 8px;
   flex: 1;
   display: flex;
   flex-direction: column;
 }
 
 .product-card-country {
-  font-size: 0.68rem;
-  font-weight: 700;
+  font-size: 0.65rem;
+  font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: rgba(0,0,0,0.4);
-  margin-bottom: 3px;
+  letter-spacing: 0.08em;
+  color: rgba(0,0,0,0.35);
+  margin-bottom: 2px;
 }
 
 .product-card-name {
@@ -607,7 +603,7 @@ a { text-decoration: none; color: inherit; }
   background: var(--yellow-bg);
   border-radius: var(--radius-sm);
   display: flex; align-items: center; justify-content: center;
-  font-size: 2rem; font-family: var(--font-cn);
+  font-size: 2rem; font-family: var(--font-main);
 }
 
 .qty-input {

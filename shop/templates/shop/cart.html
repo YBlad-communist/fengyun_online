@@ -23,7 +23,7 @@
           <div>
             <div style="font-weight:600;">{{ item.product.name }}</div>
             <div style="font-size:0.8rem;color:var(--gray-dark);">{{ item.product.country.flag_emoji }} {{ item.product.country.name }}</div>
-            <div style="font-family:var(--font-display);font-weight:700;margin-top:4px;color:var(--black);">{{ item.product.price }} ₽</div>
+            <div style="font-family:var(--font-main);font-weight:700;margin-top:4px;color:var(--black);">{{ item.product.price }} ₽</div>
           </div>
           <form method="post" action="{% url 'cart_update' item.product.pk %}" class="d-flex align-items-center gap-2">
             {% csrf_token %}
@@ -31,7 +31,7 @@
             <button type="submit" class="btn-fy-outline" style="padding:4px 10px;font-size:0.7rem;">OK</button>
           </form>
           <div class="text-end">
-            <div style="font-family:var(--font-display);font-weight:700;font-size:1.05rem;">{{ item.subtotal }} ₽</div>
+            <div style="font-family:var(--font-main);font-weight:700;font-size:1.05rem;">{{ item.subtotal }} ₽</div>
             <form method="post" action="{% url 'cart_remove' item.product.pk %}">{% csrf_token %}
               <button type="submit" style="font-size:0.75rem;color:var(--gray-dark);background:none;border:none;cursor:pointer;text-decoration:underline;padding:0;">
                 <i class="bi bi-trash"></i> Удалить
@@ -45,7 +45,7 @@
 
     <div class="col-lg-4">
       <div class="fy-card">
-        <h5 style="font-family:var(--font-display);font-weight:900;margin-bottom:1rem;">Итого</h5>
+        <h5 style="font-family:var(--font-main);font-weight:900;margin-bottom:1rem;">Итого</h5>
         {% for item in items %}
         <div class="d-flex justify-content-between mb-1" style="font-size:0.85rem;">
           <span>{{ item.product.name }} × {{ item.qty }}</span>
@@ -54,8 +54,8 @@
         {% endfor %}
         <hr>
         <div class="d-flex justify-content-between mb-3">
-          <strong style="font-family:var(--font-display);">Итого:</strong>
-          <strong style="font-family:var(--font-display);font-size:1.3rem;">{{ total }} ₽</strong>
+          <strong style="font-family:var(--font-main);">Итого:</strong>
+          <strong style="font-family:var(--font-main);font-size:1.3rem;">{{ total }} ₽</strong>
         </div>
         <a href="{% url 'checkout' %}" class="btn-fy d-block text-center" style="font-size:0.9rem;padding:14px;">
           Оформить заказ →
