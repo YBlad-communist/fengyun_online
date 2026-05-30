@@ -13,7 +13,7 @@ if not SECRET_KEY:
     raise ImproperlyConfigured('SECRET_KEY must be set in .env file')
 
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1,.fly.dev').split(',')
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -61,10 +61,11 @@ DATABASE_URL = os.getenv('DATABASE_URL')
 if DATABASE_URL:
     DATABASES = {'default': dj_database_url.parse(DATABASE_URL, conn_max_age=600)}
 else:
+    DATA_DIR = Path(os.getenv('DATA_DIR', str(BASE_DIR)))
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
+            'NAME': DATA_DIR / 'db.sqlite3',
         }
     }
 
