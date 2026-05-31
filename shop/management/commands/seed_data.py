@@ -1,12 +1,29 @@
 from django.core.management.base import BaseCommand
-from shop.models import City, PickupPoint, Category, Product, Country
+from shop.models import City, PickupPoint, Category, Product, Country, Review, Order, OrderItem, CartItem
 from decimal import Decimal
 
 
 class Command(BaseCommand):
-    help = 'Seeds initial data: cities, pickup points, categories, products'
+    help = 'Seeds or flushes demo data'
+
+    def add_arguments(self, parser):
+        parser.add_argument('--flush', action='store_true', help='Delete all data')
 
     def handle(self, *args, **options):
+        if options['flush']:
+            self.stdout.write('Deleting all data...')
+            Review.objects.all().delete()
+            OrderItem.objects.all().delete()
+            Order.objects.all().delete()
+            CartItem.objects.all().delete()
+            Product.objects.all().delete()
+            Category.objects.all().delete()
+            PickupPoint.objects.all().delete()
+            City.objects.all().delete()
+            Country.objects.all().delete()
+            self.stdout.write(self.style.SUCCESS('All data deleted'))
+            return
+
         # Countries
         cn, _ = Country.objects.get_or_create(name='Китай', defaults={'code': 'CN', 'flag_emoji': '🇨🇳'})
         jp, _ = Country.objects.get_or_create(name='Япония', defaults={'code': 'JP', 'flag_emoji': '🇯🇵'})
