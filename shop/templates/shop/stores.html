@@ -27,6 +27,11 @@
           <div style="font-size:0.85rem;color:var(--gray-dark);padding-left:42px;">
             <i class="bi bi-geo-alt-fill" style="color:var(--yellow);"></i> {{ p.address }}
           </div>
+          <div style="padding-left:42px;margin-top:6px;">
+            <a href="https://maps.google.com/?q={{ p.address|urlencode }}+{{ p.city.name|urlencode }}" target="_blank" rel="noopener" style="font-size:0.78rem;font-weight:800;color:var(--yellow-dark);text-decoration:none;">
+              <i class="bi bi-map"></i> Показать на карте →
+            </a>
+          </div>
         </div>
       </div>
       {% endfor %}
