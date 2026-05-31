@@ -1,4 +1,6 @@
+import random
 import re
+import threading
 from datetime import datetime, timedelta
 from collections import Counter
 
@@ -10,6 +12,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
 from django.conf import settings
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
 import requests as req_lib
 
@@ -36,8 +39,9 @@ def cart_total(cart):
 # ─── Catalog ─────────────────────────────────────────────────────────────────
 
 def index(request):
-    new_products = Product.objects.filter(is_active=True, in_stock=True).select_related('country').order_by('-created_at')[:8]
-    popular_products = Product.objects.filter(is_active=True, in_stock=True).select_related('country').order_by('?')[:4]
+    products = list(Product.objects.filter(is_active=True, in_stock=True).select_related('country'))
+    new_products = sorted(products, key=lambda p: p.created_at or datetime.min, reverse=True)[:8]
+    popular_products = random.sample(products, min(4, len(products)))
     return render(request, 'shop/index.html', {
         'new_products': new_products,
         'popular_products': popular_products,
@@ -53,11 +57,21 @@ def catalog(request):
         products = products.filter(country__code=country_filter)
     if search_query:
         products = products.filter(name__icontains=search_query)
+    products_count = products.count()
+    paginator = Paginator(products, 12)
+    page = request.GET.get('page')
+    try:
+        page_obj = paginator.page(page)
+    except PageNotAnInteger:
+        page_obj = paginator.page(1)
+    except EmptyPage:
+        page_obj = paginator.page(paginator.num_pages)
     return render(request, 'shop/catalog.html', {
-        'products': products,
+        'page_obj': page_obj,
         'countries': countries,
         'selected_country': country_filter,
         'search_query': search_query,
+        'products_count': products_count,
     })
 
 
@@ -117,10 +131,20 @@ def preorder(request):
     country_filter = request.GET.get('country')
     if country_filter:
         products = products.filter(country__code=country_filter)
+    products_count = products.count()
+    paginator = Paginator(products, 12)
+    page = request.GET.get('page')
+    try:
+        page_obj = paginator.page(page)
+    except PageNotAnInteger:
+        page_obj = paginator.page(1)
+    except EmptyPage:
+        page_obj = paginator.page(paginator.num_pages)
     return render(request, 'shop/preorder.html', {
-        'products': products,
+        'page_obj': page_obj,
         'countries': countries,
         'selected_country': country_filter,
+        'products_count': products_count,
     })
 
 
@@ -128,13 +152,14 @@ def preorder(request):
 
 def cart_view(request):
     cart = get_cart(request)
+    pids = [int(pid) for pid in cart.keys() if pid.isdigit()]
+    products = {p.pk: p for p in Product.objects.filter(pk__in=pids).select_related('country')}
     items = []
-    for pid, item in cart.items():
-        try:
-            p = Product.objects.get(pk=int(pid))
+    for pid in pids:
+        p = products.get(pid)
+        if p and str(pid) in cart:
+            item = cart[str(pid)]
             items.append({'product': p, 'qty': item['qty'], 'subtotal': item['price'] * item['qty']})
-        except Product.DoesNotExist:
-            pass
     return render(request, 'shop/cart.html', {'items': items, 'total': cart_total(cart)})
 
 
@@ -197,12 +222,13 @@ def checkout(request):
             order.total = cart_total(cart)
             order.save()
 
-            for pid, item in cart.items():
-                try:
-                    p = Product.objects.get(pk=int(pid))
+            pids = [int(pid) for pid in cart.keys() if pid.isdigit()]
+            products = {p.pk: p for p in Product.objects.filter(pk__in=pids)}
+            for pid in pids:
+                p = products.get(pid)
+                if p and str(pid) in cart:
+                    item = cart[str(pid)]
                     OrderItem.objects.create(order=order, product=p, quantity=item['qty'], price=item['price'])
-                except Product.DoesNotExist:
-                    pass
 
             # Bonus points: 1 point per 100 rubles
             if request.user.is_authenticated:
@@ -215,7 +241,7 @@ def checkout(request):
 
             save_cart(request, {})
             request.session['last_order_pk'] = order.pk
-            send_telegram_notification(order)
+            threading.Thread(target=send_telegram_notification, args=(order,)).start()
             messages.success(request, f'Заказ №{order.pk} успешно оформлен!')
             return redirect('order_success', pk=order.pk)
     else:
@@ -229,12 +255,13 @@ def checkout(request):
         form = OrderForm(initial=initial)
 
     items = []
-    for pid, item in cart.items():
-        try:
-            p = Product.objects.get(pk=int(pid))
+    pids = [int(pid) for pid in cart.keys() if pid.isdigit()]
+    products = {p.pk: p for p in Product.objects.filter(pk__in=pids).select_related('country')}
+    for pid in pids:
+        p = products.get(pid)
+        if p and str(pid) in cart:
+            item = cart[str(pid)]
             items.append({'product': p, 'qty': item['qty'], 'subtotal': item['price'] * item['qty']})
-        except Product.DoesNotExist:
-            pass
 
     return render(request, 'shop/checkout.html', {
         'form': form,

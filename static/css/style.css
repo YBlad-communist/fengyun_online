@@ -986,7 +986,26 @@ a { text-decoration: none; color: inherit; }
   .popular-grid .col { max-width: 100%; flex: 0 0 100%; }
 }
 
-/* ── Responsive ── */
+/* ── Pagination ── */
+.pagination .page-link {
+  color: var(--black);
+  background: var(--white);
+  border: 1.5px solid var(--yellow);
+  border-radius: 6px !important;
+  padding: 4px 10px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  margin: 0 2px;
+}
+.pagination .page-link:hover {
+  background: var(--yellow);
+  color: var(--black);
+}
+.pagination .page-item.active .page-link {
+  background: var(--yellow);
+  border-color: var(--yellow);
+  color: var(--black);
+}
 @media (max-width: 767px) {
   .hero-inner { grid-template-columns: 1fr; min-height: auto; }
   .hero-left::after { display: none; }

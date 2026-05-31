@@ -35,8 +35,8 @@ class Product(models.Model):
     image = models.ImageField('Фото', upload_to='products/', blank=True, null=True)
     country = models.ForeignKey(Country, on_delete=models.SET_NULL, null=True, verbose_name='Страна')
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='Категория')
-    in_stock = models.BooleanField('В наличии', default=True)
-    is_active = models.BooleanField('Активен', default=True)
+    in_stock = models.BooleanField('В наличии', default=True, db_index=True)
+    is_active = models.BooleanField('Активен', default=True, db_index=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -64,7 +64,7 @@ class PickupPoint(models.Model):
     name = models.CharField('Название', max_length=100)
     city = models.ForeignKey(City, on_delete=models.SET_NULL, verbose_name='Город', related_name='pickup_points', null=True)
     address = models.CharField('Адрес', max_length=255)
-    is_active = models.BooleanField('Активна', default=True)
+    is_active = models.BooleanField('Активна', default=True, db_index=True)
 
     class Meta:
         verbose_name = 'Точка выдачи'

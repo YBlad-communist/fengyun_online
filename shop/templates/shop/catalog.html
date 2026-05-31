@@ -6,7 +6,7 @@
   <div class="container">
     <h1>Каталог <span>товаров</span></h1>
     {% if search_query %}
-    <p>Поиск: «{{ search_query }}» — найдено {{ products|length }}</p>
+    <p>Поиск: «{{ search_query }}» — найдено {{ products_count }}</p>
     {% else %}
     <p>Всё в наличии · Самовывоз из 4 точек</p>
     {% endif %}
@@ -23,10 +23,10 @@
 </div>
 
 <div class="container py-4">
-  {% if products %}
-  <div class="mb-3 section-label">{{ products|length }} товаров</div>
+  {% if page_obj %}
+  <div class="mb-3 section-label">{{ products_count }} товаров</div>
   <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 g-3">
-    {% for p in products %}
+    {% for p in page_obj %}
     <div class="col">
       <div class="product-card">
         <a href="{% url 'product_detail' p.pk %}" class="product-card-img-wrap">
@@ -41,7 +41,7 @@
           <div class="product-card-country">{{ p.country.flag_emoji }} {{ p.country.name }}</div>
           <a href="{% url 'product_detail' p.pk %}" class="text-decoration-none text-dark"><div class="product-card-name">{{ p.name }}</div></a>
           <div class="d-flex justify-content-between align-items-center mt-auto pt-1">
-            <div class="fy-price">{{ p.price }} <span style="font-size:0.7rem;color:var(--gray-dark);">₽</span></div>
+            <div class="fy-price">{{ p.price }} <span style="font-size:0.7rem;color:rgba(0,0,0,0.55);">₽</span></div>
             <form method="post" action="{% url 'cart_add' p.pk %}">{% csrf_token %}<button type="submit" class="btn-add"><i class="bi bi-bag-plus"></i></button></form>
           </div>
         </div>
@@ -49,6 +49,23 @@
     </div>
     {% endfor %}
   </div>
+
+  {% if page_obj.paginator.num_pages > 1 %}
+  <nav class="mt-4 d-flex justify-content-center">
+    <ul class="pagination pagination-sm flex-wrap gap-1" style="list-style:none;padding:0;">
+      {% if page_obj.has_previous %}
+      <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if selected_country %}&country={{ selected_country }}{% endif %}{% if search_query %}&q={{ search_query }}{% endif %}">‹</a></li>
+      {% endif %}
+      {% for num in page_obj.paginator.page_range %}
+      <li class="page-item {% if num == page_obj.number %}active{% endif %}"><a class="page-link" href="?page={{ num }}{% if selected_country %}&country={{ selected_country }}{% endif %}{% if search_query %}&q={{ search_query }}{% endif %}">{{ num }}</a></li>
+      {% endfor %}
+      {% if page_obj.has_next %}
+      <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}{% if selected_country %}&country={{ selected_country }}{% endif %}{% if search_query %}&q={{ search_query }}{% endif %}">›</a></li>
+      {% endif %}
+    </ul>
+  </nav>
+  {% endif %}
+
   {% else %}
   <div class="text-center py-5">
     <div style="font-size:3.5rem;">🈳</div>
