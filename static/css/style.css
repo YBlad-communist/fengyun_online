@@ -1025,4 +1025,6 @@ a { text-decoration: none; color: inherit; }
   .navbar-fengyun .container { padding-left: 8px; padding-right: 4px; }
   .navbar-collapse { flex: 1 1 100%; order: 1; }
   .nav-btn-profile, .nav-btn-login { padding: 6px 8px; font-size: 0.9rem; }
+  .navbar-collapse.show ~ .nav-actions .nav-btn-login,
+  .navbar-collapse.show ~ .nav-actions .nav-btn-profile { display: none; }
 }
