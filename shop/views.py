@@ -19,7 +19,7 @@ import requests as req_lib
 LOGIN_MAX_ATTEMPTS = 5
 LOGIN_LOCKOUT_MINUTES = 15
 
-from .models import Product, Country, PickupPoint, City, Order, OrderItem, UserProfile, Review
+from .models import Product, Country, PickupPoint, City, Order, OrderItem, UserProfile, Review, News
 from .forms import OrderForm, RegisterForm, ProfileForm, ReviewForm
 
 
@@ -122,29 +122,6 @@ def product_detail(request, pk):
         'reviews': reviews,
         'avg_rating': avg_rating,
         'similar_products': similar,
-    })
-
-
-def preorder(request):
-    products = Product.objects.filter(is_active=True, in_stock=False).select_related('country')
-    countries = Country.objects.all()
-    country_filter = request.GET.get('country')
-    if country_filter:
-        products = products.filter(country__code=country_filter)
-    products_count = products.count()
-    paginator = Paginator(products, 12)
-    page = request.GET.get('page')
-    try:
-        page_obj = paginator.page(page)
-    except PageNotAnInteger:
-        page_obj = paginator.page(1)
-    except EmptyPage:
-        page_obj = paginator.page(paginator.num_pages)
-    return render(request, 'shop/preorder.html', {
-        'page_obj': page_obj,
-        'countries': countries,
-        'selected_country': country_filter,
-        'products_count': products_count,
     })
 
 
@@ -305,6 +282,18 @@ def send_telegram_notification(order):
         )
     except Exception:
         pass
+
+
+# ─── News ────────────────────────────────────────────────────────────────────
+
+def news_list(request):
+    news = News.objects.filter(is_published=True)
+    return render(request, 'shop/news.html', {'news': news})
+
+
+def news_detail(request, pk):
+    article = get_object_or_404(News, pk=pk, is_published=True)
+    return render(request, 'shop/news_detail.html', {'article': article})
 
 
 # ─── Stores map ──────────────────────────────────────────────────────────────

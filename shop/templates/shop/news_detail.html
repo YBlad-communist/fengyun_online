@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}{{ article.title }} — Фэнъюнь{% endblock %}
+
+{% block content %}
+<div class="container py-4" style="max-width:720px;">
+  <nav style="font-size:0.78rem;color:rgba(0,0,0,0.55);margin-bottom:1.5rem;">
+    <a href="{% url 'index' %}" style="color:rgba(0,0,0,0.55);">Главная</a>
+    <span class="mx-1">/</span>
+    <a href="{% url 'news' %}" style="color:rgba(0,0,0,0.55);">Новости</a>
+    <span class="mx-1">/</span>
+    <span style="font-weight:700;">{{ article.title|truncatechars:30 }}</span>
+  </nav>
+
+  <article class="news-article">
+    <div class="news-article-date">{{ article.created_at|date:"d E Y"|lower }}</div>
+    <h1 class="news-article-title">{{ article.title }}</h1>
+
+    {% if article.image %}
+    <div class="news-article-img-wrap">
+      <img src="{{ article.image.url }}" alt="{{ article.title }}" class="news-article-img">
+    </div>
+    {% endif %}
+
+    <div class="news-article-content">{{ article.content|linebreaks }}</div>
+
+    <div class="news-article-footer">
+      <a href="{% url 'news' %}" class="btn-fy">← Все новости</a>
+    </div>
+  </article>
+</div>
+{% endblock %}

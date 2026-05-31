@@ -131,6 +131,22 @@ class Review(models.Model):
         return f'{self.user.username} — {self.product.name}'
 
 
+class News(models.Model):
+    title = models.CharField('Заголовок', max_length=200)
+    content = models.TextField('Содержание')
+    image = models.ImageField('Фото', upload_to='news/', blank=True, null=True)
+    is_published = models.BooleanField('Опубликована', default=True, db_index=True)
+    created_at = models.DateTimeField('Дата', auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'Новость'
+        verbose_name_plural = 'Новости'
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return self.title
+
+
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     phone = models.CharField('Телефон', max_length=20, blank=True)

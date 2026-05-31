@@ -54,7 +54,7 @@
         </li>
         <li class="nav-item"><a class="nav-link-fy {% if request.resolver_match.url_name == 'index' %}active{% endif %}" href="{% url 'index' %}">Главная</a></li>
         <li class="nav-item"><a class="nav-link-fy {% if request.resolver_match.url_name == 'catalog' %}active{% endif %}" href="{% url 'catalog' %}">Каталог</a></li>
-        <li class="nav-item"><a class="nav-link-fy {% if request.resolver_match.url_name == 'preorder' %}active{% endif %}" href="{% url 'preorder' %}">Под заказ</a></li>
+        <li class="nav-item"><a class="nav-link-fy {% if request.resolver_match.url_name == 'news' %}active{% endif %}" href="{% url 'news' %}">Новости</a></li>
         <li class="nav-item"><a class="nav-link-fy {% if request.resolver_match.url_name == 'stores' %}active{% endif %}" href="{% url 'stores' %}">Магазины</a></li>
         <li class="nav-item">
           <a class="nav-link-fy position-relative {% if request.resolver_match.url_name == 'cart' %}active{% endif %}" href="{% url 'cart' %}">
@@ -110,7 +110,7 @@
       </div>
       <div class="col-md-4" style="font-size:0.82rem;line-height:2.3;">
         <a href="{% url 'catalog' %}">Каталог</a> &nbsp;·&nbsp;
-        <a href="{% url 'preorder' %}">Под заказ</a> &nbsp;·&nbsp;
+        <a href="{% url 'news' %}">Новости</a> &nbsp;·&nbsp;
         <a href="{% url 'stores' %}">Магазины</a> &nbsp;·&nbsp;
         <a href="{% url 'account' %}">Кабинет</a>
       </div>

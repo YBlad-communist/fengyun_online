@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand
-from shop.models import City, PickupPoint, Category, Product, Country, Review, Order, OrderItem
+from shop.models import City, PickupPoint, Category, Product, Country, Review, Order, OrderItem, News
 from decimal import Decimal
 
 
@@ -13,6 +13,7 @@ class Command(BaseCommand):
         if options['flush']:
             self.stdout.write('Deleting all data...')
             Review.objects.all().delete()
+            News.objects.all().delete()
             OrderItem.objects.all().delete()
             Order.objects.all().delete()
             Product.objects.all().delete()
@@ -110,3 +111,17 @@ class Command(BaseCommand):
             )
 
         self.stdout.write(self.style.SUCCESS(f'{len(products_data)} products created'))
+
+        # News
+        news_data = [
+            ('Завоз новой партии лапши!', 'Друзья, мы получили свежую партию популярной лапши Nongshim Shin Ramyun и Samyang. В наличии все вкусы, включая лимитированные серии. Заходите в «Мегу» и «Клён» в Находке!'),
+            ('Скидки на снеки 20%', 'Всю неделю на все снеки (креветки, нори, сушёный кальмар, кимчи-чипсы) действует скидка 20%. Успейте запастись любимыми закусками. Акция действует до конца недели.'),
+            ('Новая точка выдачи в Хабаровске', 'Мы открыли новую точку выдачи в Хабаровске в ТЦ «Большая Медведица» на улице Муравьёва-Амурского, 44. Ждём вас на -1 этаже!'),
+            ('Японский чай матча снова в наличии', 'Порошковый чай матча премиум-класса из Японии снова в продаже. Натуральный, ярко-зелёный, без добавок. Идеален для латте и выпечки.'),
+        ]
+        for title, content in news_data:
+            News.objects.get_or_create(
+                title=title,
+                defaults={'content': content, 'is_published': True}
+            )
+        self.stdout.write(self.style.SUCCESS(f'{len(news_data)} news articles created'))
