@@ -114,7 +114,7 @@ a { text-decoration: none; color: inherit; }
   display: flex;
   align-items: center;
   gap: 6px;
-  margin-left: auto;
+  flex-shrink: 0;
 }
 .nav-btn-login, .nav-btn-profile {
   display: flex;
@@ -1023,5 +1023,6 @@ a { text-decoration: none; color: inherit; }
   .navbar-nav.ms-auto { margin-top: 6px; }
   .nav-actions { gap: 4px; }
   .navbar-fengyun .container { padding-left: 8px; padding-right: 4px; }
+  .navbar-collapse { flex: 1 1 100%; order: 1; }
   .nav-btn-profile, .nav-btn-login { padding: 6px 8px; font-size: 0.9rem; }
 }
