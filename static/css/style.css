@@ -982,6 +982,10 @@ a { text-decoration: none; color: inherit; }
   flex: 0 0 50%;
 }
 
+@media (min-width: 992px) {
+  .nav-actions { order: 1; }
+}
+
 @media (max-width: 768px) {
   .popular-grid .col { max-width: 100%; flex: 0 0 100%; }
 }
@@ -1023,7 +1027,7 @@ a { text-decoration: none; color: inherit; }
   .navbar-nav.ms-auto { margin-top: 6px; }
   .nav-actions { gap: 4px; }
   .navbar-fengyun .container { padding-left: 8px; padding-right: 4px; }
-  .navbar-collapse { flex: 1 1 100%; order: 1; }
+  .navbar-collapse { flex: 1 1 100%; }
   .nav-btn-profile, .nav-btn-login { padding: 6px 8px; font-size: 0.9rem; }
 
 }
