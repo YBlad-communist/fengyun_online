@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand
-from shop.models import City, PickupPoint, Category, Product, Country, Review, Order, OrderItem, CartItem
+from shop.models import City, PickupPoint, Category, Product, Country, Review, Order, OrderItem
 from decimal import Decimal
 
 
@@ -15,7 +15,6 @@ class Command(BaseCommand):
             Review.objects.all().delete()
             OrderItem.objects.all().delete()
             Order.objects.all().delete()
-            CartItem.objects.all().delete()
             Product.objects.all().delete()
             Category.objects.all().delete()
             PickupPoint.objects.all().delete()
