@@ -982,10 +982,6 @@ a { text-decoration: none; color: inherit; }
   flex: 0 0 50%;
 }
 
-@media (min-width: 992px) {
-  .nav-actions { order: 1; }
-}
-
 @media (max-width: 768px) {
   .popular-grid .col { max-width: 100%; flex: 0 0 100%; }
 }
