@@ -31,9 +31,24 @@
         <span class="brand-name-cn">азиатские товары · @fengyunasia</span>
       </div>
     </a>
-    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMain">
-      <i class="bi bi-list" style="color:var(--yellow);font-size:1.6rem;"></i>
-    </button>
+
+    <div class="nav-actions">
+      {% if user.is_authenticated %}
+      <a href="{% url 'account' %}" class="nav-btn-profile">
+        <i class="bi bi-person-fill"></i>
+        <span class="nav-btn-text">Кабинет</span>
+      </a>
+      {% else %}
+      <a href="{% url 'login' %}" class="nav-btn-login">
+        <i class="bi bi-box-arrow-in-right"></i>
+        <span class="nav-btn-text">Войти</span>
+      </a>
+      {% endif %}
+      <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMain">
+        <i class="bi bi-list" style="color:var(--yellow);font-size:1.6rem;"></i>
+      </button>
+    </div>
+
     <div class="collapse navbar-collapse" id="navMain">
       <!-- Search bar -->
       <form class="navbar-search mx-auto" action="{% url 'catalog' %}" method="get">
@@ -52,12 +67,11 @@
             {% if cart_count %}<span class="cart-pill">{{ cart_count }}</span>{% endif %}
           </a>
         </li>
-        {% if user.is_authenticated %}
-        <li class="nav-item"><a class="nav-link-fy" href="{% url 'account' %}"><i class="bi bi-person-fill"></i> {{ user.username }}</a></li>
-        <li class="nav-item"><a class="nav-link-fy" href="{% url 'logout' %}" title="Выйти"><i class="bi bi-box-arrow-right"></i></a></li>
-        {% else %}
-        <li class="nav-item ms-2"><a href="{% url 'login' %}" class="btn-fy" style="padding:7px 16px;font-size:0.78rem;">Войти</a></li>
-        {% endif %}
+        <li class="nav-item d-lg-none">
+          {% if user.is_authenticated %}
+          <a class="nav-link-fy" href="{% url 'logout' %}"><i class="bi bi-box-arrow-right"></i> Выйти</a>
+          {% endif %}
+        </li>
       </ul>
     </div>
   </div>

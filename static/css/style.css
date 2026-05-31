@@ -109,6 +109,48 @@ a { text-decoration: none; color: inherit; }
   .nav-cart-text { display: none; }
 }
 
+/* ── Nav actions (login/profile outside menu) ── */
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+}
+.nav-btn-login, .nav-btn-profile {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: var(--yellow);
+  color: var(--black);
+  font-weight: 900;
+  font-size: 0.78rem;
+  padding: 7px 14px;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background 0.15s, transform 0.1s;
+  white-space: nowrap;
+}
+.nav-btn-login:hover, .nav-btn-profile:hover {
+  background: var(--yellow-dark);
+  color: var(--black);
+  transform: translateY(-1px);
+}
+.nav-btn-profile {
+  background: var(--black);
+  color: var(--white);
+}
+.nav-btn-profile:hover {
+  background: rgba(0,0,0,0.75);
+  color: var(--white);
+}
+.nav-btn-text {
+  font-size: 0.78rem;
+}
+@media (max-width: 767px) {
+  .nav-btn-text { display: none; }
+  .nav-btn-login, .nav-btn-profile { padding: 7px 10px; font-size: 1rem; }
+}
+
 /* ── Navbar search ── */
 .navbar-search {
   position: relative;
@@ -979,4 +1021,7 @@ a { text-decoration: none; color: inherit; }
   .stat-card-num { font-size: 1.4rem; }
   .hero-sub { margin-top: 6px; }
   .navbar-nav.ms-auto { margin-top: 6px; }
+  .nav-actions { gap: 4px; }
+  .navbar-fengyun .container { padding-left: 8px; padding-right: 4px; }
+  .nav-btn-profile, .nav-btn-login { padding: 6px 8px; font-size: 0.9rem; }
 }
