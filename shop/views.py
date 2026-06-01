@@ -13,13 +13,9 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
 from django.conf import settings
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.db.models import Q
-import requests as req_lib
+from django.db.models import Q, Count
 
-LOGIN_MAX_ATTEMPTS = 5
-LOGIN_LOCKOUT_MINUTES = 15
-
-from .models import Product, Country, PickupPoint, City, Order, OrderItem, UserProfile, Review, News
+from .models import Product, Country, PickupPoint, City, Order, OrderItem, UserProfile, Review, News, Category
 from .forms import OrderForm, RegisterForm, ProfileForm, ReviewForm
 
 
@@ -42,9 +38,19 @@ def index(request):
     products = list(Product.objects.filter(is_active=True, in_stock=True).select_related('country'))
     new_products = sorted(products, key=lambda p: p.created_at or datetime.min, reverse=True)[:8]
     popular_products = random.sample(products, min(4, len(products)))
+    min_price = min((p.price for p in products), default=0)
+    total_count = len(products)
+    categories = Category.objects.annotate(product_count=Count('product')).filter(product_count__gt=0)
+    countries = Country.objects.filter(product__in=Product.objects.filter(is_active=True)).distinct()
+    pickup_count = PickupPoint.objects.filter(is_active=True).count()
     return render(request, 'shop/index.html', {
         'new_products': new_products,
         'popular_products': popular_products,
+        'min_price': min_price,
+        'total_count': total_count,
+        'categories': categories,
+        'countries_count': countries.count(),
+        'pickup_count': pickup_count,
     })
 
 

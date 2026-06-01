@@ -10,7 +10,7 @@
     <div class="hero-left">
       <div class="hero-tagline">Азия в России</div>
       <h1 class="hero-h1">Цены<br>ещё ниже!</h1>
-      <p class="hero-sub">Лапша, чипсы, сладости, чай, соусы и ещё 300+ товаров из Азии</p>
+      <p class="hero-sub">Лапша, чипсы, сладости, чай, соусы и ещё {{ total_count }} товаров из Азии</p>
       <div class="mt-3 d-flex gap-2 flex-wrap">
         <a href="{% url 'catalog' %}" class="btn-fy" style="padding:10px 22px;">Весь каталог →</a>
         <a href="{% url 'news' %}" class="btn-fy-dark" style="padding:10px 22px;">Новости →</a>
@@ -19,15 +19,15 @@
     <div class="hero-right">
       <div class="d-flex flex-column gap-3">
         <div class="hero-stat">
-          <span class="hero-stat-num">300+</span>
+          <span class="hero-stat-num">{{ total_count }}</span>
           <span class="hero-stat-label">позиций</span>
         </div>
         <div class="hero-stat">
-          <span class="hero-stat-num">4</span>
+          <span class="hero-stat-num">{{ pickup_count }}</span>
           <span class="hero-stat-label">точки выдачи</span>
         </div>
         <div class="hero-stat">
-          <span class="hero-stat-num">от 29₽</span>
+          <span class="hero-stat-num">от {{ min_price }}₽</span>
           <span class="hero-stat-label">цена за штуку</span>
         </div>
         <div class="mt-1" style="color:rgba(255,255,255,0.25);font-size:0.7rem;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;">
@@ -37,6 +37,28 @@
     </div>
   </div>
 </section>
+
+<!-- Категории -->
+{% if categories %}
+<section class="section-pad pb-0">
+  <div class="container">
+    <div class="section-header">
+      <h2>Категории</h2>
+      <span class="section-header-line"></span>
+    </div>
+    <div class="row g-2">
+      {% for cat in categories %}
+      <div class="col-4 col-md-2">
+        <a href="{% url 'catalog' %}?category={{ cat.slug }}" class="category-chip">
+          <span class="category-chip-name">{{ cat.name }}</span>
+          <span class="category-chip-count">{{ cat.product_count }}</span>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
 
 <!-- Новинки -->
 {% if new_products %}
@@ -121,7 +143,7 @@
           ФЭНЪЮНЬ —<br><span style="color:var(--yellow);">азиатские товары в России</span>
         </h2>
         <p style="color:rgba(255,255,255,0.5);margin-top:14px;line-height:1.75;font-size:0.88rem;">
-          Лапша, чипсы, сладости, чай, соусы, снеки — более 300 позиций. Самовывоз из 2 точек в Находке.
+          Лапша, чипсы, сладости, чай, соусы, снеки — более {{ total_count }} позиций. Самовывоз из {{ pickup_count }} точек в Находке, Фокино и Хабаровске.
         </p>
         <div class="mt-3 d-flex gap-2 flex-wrap">
           <a href="{% url 'catalog' %}" class="btn-fy">Каталог</a>
@@ -131,11 +153,10 @@
       </div>
       <div class="col-md-6">
         <div class="row g-3">
-          {% for stat in ""|center:4 %}{% endfor %}
-          <div class="col-6"><div class="stat-card"><div class="stat-card-num">300+</div><div class="stat-card-label">Товаров</div></div></div>
-          <div class="col-6"><div class="stat-card"><div class="stat-card-num">2</div><div class="stat-card-label">Точки выдачи</div></div></div>
-          <div class="col-6"><div class="stat-card"><div class="stat-card-num">4</div><div class="stat-card-label">Страны</div></div></div>
-          <div class="col-6"><div class="stat-card"><div class="stat-card-num">5–7</div><div class="stat-card-label">Дней под заказ</div></div></div>
+          <div class="col-6"><div class="stat-card"><div class="stat-card-num">{{ total_count }}</div><div class="stat-card-label">Товаров</div></div></div>
+          <div class="col-6"><div class="stat-card"><div class="stat-card-num">{{ pickup_count }}</div><div class="stat-card-label">Точки выдачи</div></div></div>
+          <div class="col-6"><div class="stat-card"><div class="stat-card-num">{{ countries_count }}</div><div class="stat-card-label">Страны</div></div></div>
+          <div class="col-6"><div class="stat-card"><div class="stat-card-num">от {{ min_price }}₽</div><div class="stat-card-label">Цена за штуку</div></div></div>
         </div>
       </div>
     </div>

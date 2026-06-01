@@ -1128,6 +1128,38 @@ a { text-decoration: none; color: inherit; }
   padding-top: 1.5rem;
   border-top: 1px solid rgba(0,0,0,0.08);
 }
+
+/* ── Category chips ── */
+.category-chip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 0.7rem 0.3rem;
+  border-radius: 12px;
+  background: var(--white);
+  border: 1.5px solid var(--yellow);
+  text-decoration: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.category-chip:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.06);
+}
+.category-chip-name {
+  font-family: var(--font-main);
+  font-weight: 800;
+  font-size: 0.78rem;
+  color: var(--black);
+  text-align: center;
+  line-height: 1.2;
+}
+.category-chip-count {
+  font-size: 0.65rem;
+  color: rgba(0,0,0,0.4);
+  font-weight: 600;
+}
 @media (max-width: 767px) {
   .hero-inner { grid-template-columns: 1fr; min-height: auto; }
   .hero-left::after { display: none; }
