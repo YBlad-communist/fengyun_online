@@ -1161,7 +1161,7 @@ a { text-decoration: none; color: inherit; }
   .stat-card { padding: 0.8rem; }
   .stat-card-num { font-size: 1.4rem; }
   .hero-sub { margin-top: 6px; }
-  .navbar-nav.ms-auto { margin-top: 6px; margin-left: 0 !important; }
+  .navbar-nav.ms-auto { margin-top: 6px; }
   .nav-actions { gap: 4px; }
   .navbar-fengyun .container { padding-left: 8px; padding-right: 4px; }
   .navbar-collapse { flex: 1 1 100%; }
