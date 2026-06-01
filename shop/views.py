@@ -143,6 +143,8 @@ def cart_view(request):
 @require_POST
 def cart_add(request, pk):
     if not request.user.is_authenticated:
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return JsonResponse({'ok': False, 'error': 'login'}, status=403)
         messages.info(request, 'Войдите или зарегистрируйтесь, чтобы добавить товар в корзину')
         return redirect(f'{settings.LOGIN_URL}?next={request.POST.get("next", "/")}')
     product = get_object_or_404(Product, pk=pk, is_active=True)
@@ -153,6 +155,9 @@ def cart_add(request, pk):
     else:
         cart[pid] = {'qty': 1, 'price': float(product.price), 'name': product.name}
     save_cart(request, cart)
+    total_count = sum(item['qty'] for item in cart.values())
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        return JsonResponse({'ok': True, 'count': total_count})
     messages.success(request, f'«{product.name}» добавлен в корзину')
     return redirect(request.POST.get('next', '/'))
 

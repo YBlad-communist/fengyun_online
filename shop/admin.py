@@ -1,59 +1,54 @@
 from django.contrib import admin
-from .models import Country, Category, Product, PickupPoint, City, Order, OrderItem, UserProfile, Review
-
-
-@admin.register(Country)
-class CountryAdmin(admin.ModelAdmin):
-    list_display = ['name', 'code', 'flag_emoji']
-
-
-@admin.register(Category)
-class CategoryAdmin(admin.ModelAdmin):
-    list_display = ['name', 'slug']
-    prepopulated_fields = {'slug': ('name',)}
-
-
-@admin.register(Product)
-class ProductAdmin(admin.ModelAdmin):
-    list_display = ['name', 'price', 'country', 'category', 'in_stock', 'is_active', 'created_at']
-    list_filter = ['country', 'in_stock', 'is_active', 'category']
-    list_editable = ['price', 'in_stock', 'is_active']
-    search_fields = ['name', 'description']
-
-
-@admin.register(City)
-class CityAdmin(admin.ModelAdmin):
-    list_display = ['name']
-
-
-@admin.register(PickupPoint)
-class PickupPointAdmin(admin.ModelAdmin):
-    list_display = ['name', 'city', 'address', 'is_active']
-    list_filter = ['city']
+from django.urls import reverse
+from django.utils.html import format_html
+from .models import Product, Category, Country, City, PickupPoint, Order, OrderItem, Review, News
 
 
 class OrderItemInline(admin.TabularInline):
     model = OrderItem
     extra = 0
-    readonly_fields = ['product', 'quantity', 'price']
+    readonly_fields = ('product_link', 'quantity', 'price', 'get_total')
+    fields = ('product_link', 'quantity', 'price', 'get_total')
+
+    def product_link(self, obj):
+        url = reverse('admin:shop_product_change', args=[obj.product_id])
+        return format_html('<a href="{}">{} (#{})</a>', url, obj.product.name, obj.product_id)
+    product_link.short_description = 'Товар'
+
+    def get_total(self, obj):
+        return obj.get_total()
+    get_total.short_description = 'Сумма'
+
+    def has_add_permission(self, request, obj=None):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
 
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ['pk', 'name', 'phone', 'pickup_point', 'status', 'total', 'created_at']
-    list_filter = ['status', 'pickup_point']
-    list_editable = ['status']
+    list_display = ('pk', 'name', 'phone', 'pickup_point', 'status', 'total', 'created_at')
+    list_filter = ('status', 'created_at')
+    search_fields = ('name', 'phone', 'pk')
+    readonly_fields = ('pk', 'created_at', 'total')
     inlines = [OrderItemInline]
-    readonly_fields = ['created_at', 'total']
 
 
-@admin.register(UserProfile)
-class UserProfileAdmin(admin.ModelAdmin):
-    list_display = ['user', 'phone', 'bonus_points']
+@admin.register(Product)
+class ProductAdmin(admin.ModelAdmin):
+    list_display = ('name', 'category', 'country', 'price', 'in_stock', 'is_active')
+    list_filter = ('category', 'country', 'in_stock', 'is_active')
+    search_fields = ('name',)
 
 
-@admin.register(Review)
-class ReviewAdmin(admin.ModelAdmin):
-    list_display = ['product', 'user', 'rating', 'created_at']
-    list_filter = ['rating']
-    search_fields = ['product__name', 'user__username']
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    prepopulated_fields = {'slug': ('name',)}
+
+
+admin.site.register(Country)
+admin.site.register(City)
+admin.site.register(PickupPoint)
+admin.site.register(Review)
+admin.site.register(News)

@@ -126,6 +126,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+  // Product name expand
   document.querySelectorAll('.product-card-name').forEach(function(el) {
     if (el.scrollHeight > el.clientHeight) {
       var btn = document.createElement('span');
@@ -138,6 +139,44 @@ document.addEventListener('DOMContentLoaded', function() {
       };
       el.after(btn);
     }
+  });
+
+  // AJAX add to cart
+  document.querySelectorAll('form[action*="cart/add/"]').forEach(function(form) {
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      var btn = form.querySelector('button');
+      var originalHtml = btn.innerHTML;
+      btn.disabled = true;
+      btn.innerHTML = '<i class="bi bi-check2"></i>';
+      var formData = new FormData(form);
+      formData.append('next', window.location.pathname);
+      fetch(form.action, {
+        method: 'POST',
+        body: formData,
+        headers: {'X-Requested-With': 'XMLHttpRequest'}
+      }).then(function(r) {
+        if (r.status === 403) { window.location.href = '/account/login/?next=' + encodeURIComponent(window.location.pathname); return; }
+        return r.json();
+      }).then(function(data) {
+        if (data && data.ok) {
+          var pill = document.querySelector('.cart-pill');
+          if (pill) { pill.textContent = data.count; } else {
+            var cartLink = document.querySelector('a[href*="cart"]');
+            if (cartLink) {
+              var newPill = document.createElement('span');
+              newPill.className = 'cart-pill';
+              newPill.textContent = data.count;
+              cartLink.querySelector('.nav-cart-text').after(newPill);
+            }
+          }
+          setTimeout(function() { btn.innerHTML = originalHtml; btn.disabled = false; }, 1200);
+        }
+      }).catch(function() {
+        btn.innerHTML = originalHtml;
+        btn.disabled = false;
+      });
+    });
   });
 });
 </script>
