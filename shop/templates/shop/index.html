@@ -38,28 +38,6 @@
   </div>
 </section>
 
-<!-- Категории -->
-{% if categories %}
-<section class="section-pad pb-0">
-  <div class="container">
-    <div class="section-header">
-      <h2>Категории</h2>
-      <span class="section-header-line"></span>
-    </div>
-    <div class="row g-2">
-      {% for cat in categories %}
-      <div class="col-4 col-md-2">
-        <a href="{% url 'catalog' %}?category={{ cat.slug }}" class="category-chip">
-          <span class="category-chip-name">{{ cat.name }}</span>
-          <span class="category-chip-count">{{ cat.product_count }}</span>
-        </a>
-      </div>
-      {% endfor %}
-    </div>
-  </div>
-</section>
-{% endif %}
-
 <!-- Новинки -->
 {% if new_products %}
 <section class="section-pad pb-0">
