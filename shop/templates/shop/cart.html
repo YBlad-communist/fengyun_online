@@ -22,7 +22,7 @@
           {% endif %}
           <div>
             <div style="font-weight:600;">{{ item.product.name }}</div>
-            <div style="font-size:0.8rem;color:var(--gray-dark);">{{ item.product.country.flag_emoji }} {{ item.product.country.name }}</div>
+            <div style="font-size:0.8rem;color:var(--gray-dark);"><span class="d-none d-sm-inline">{{ item.product.country.flag_emoji }}</span> {{ item.product.country.name }}</div>
             <div style="font-family:var(--font-main);font-weight:700;margin-top:4px;color:var(--black);">{{ item.product.price }} ₽</div>
           </div>
           <form method="post" action="{% url 'cart_update' item.product.pk %}" class="d-flex align-items-center gap-2">
