@@ -5,19 +5,15 @@
 <div class="page-header">
   <div class="container">
     <h1>Каталог <span>товаров</span></h1>
-    {% if search_query %}
-    <p>Поиск: «{{ search_query }}» — найдено {{ products_count }}</p>
-    {% else %}
     <p>Всё в наличии · Самовывоз из 4 точек</p>
-    {% endif %}
   </div>
 </div>
 
 <div class="filter-bar">
   <div class="container d-flex flex-wrap gap-1 align-items-center">
-    <a href="{% url 'catalog' %}{% if search_query %}?q={{ search_query }}{% endif %}" class="filter-btn {% if not selected_country %}active{% endif %}">Все</a>
+    <a href="{% url 'catalog' %}" class="filter-btn {% if not selected_country %}active{% endif %}">Все</a>
     {% for c in countries %}
-    <a href="?country={{ c.code }}{% if search_query %}&q={{ search_query }}{% endif %}" class="filter-btn {% if selected_country == c.code %}active{% endif %}">{{ c.flag_emoji }} {{ c.name }}</a>
+    <a href="?country={{ c.code }}" class="filter-btn {% if selected_country == c.code %}active{% endif %}">{{ c.flag_emoji }} {{ c.name }}</a>
     {% endfor %}
   </div>
 </div>
@@ -54,13 +50,13 @@
   <nav class="mt-4 d-flex justify-content-center">
     <ul class="pagination pagination-sm flex-wrap gap-1" style="list-style:none;padding:0;">
       {% if page_obj.has_previous %}
-      <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if selected_country %}&country={{ selected_country }}{% endif %}{% if search_query %}&q={{ search_query }}{% endif %}">‹</a></li>
+      <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if selected_country %}&country={{ selected_country }}{% endif %}">‹</a></li>
       {% endif %}
       {% for num in page_obj.paginator.page_range %}
-      <li class="page-item {% if num == page_obj.number %}active{% endif %}"><a class="page-link" href="?page={{ num }}{% if selected_country %}&country={{ selected_country }}{% endif %}{% if search_query %}&q={{ search_query }}{% endif %}">{{ num }}</a></li>
+      <li class="page-item {% if num == page_obj.number %}active{% endif %}"><a class="page-link" href="?page={{ num }}{% if selected_country %}&country={{ selected_country }}{% endif %}">{{ num }}</a></li>
       {% endfor %}
       {% if page_obj.has_next %}
-      <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}{% if selected_country %}&country={{ selected_country }}{% endif %}{% if search_query %}&q={{ search_query }}{% endif %}">›</a></li>
+      <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}{% if selected_country %}&country={{ selected_country }}{% endif %}">›</a></li>
       {% endif %}
     </ul>
   </nav>

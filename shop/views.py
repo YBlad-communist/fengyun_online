@@ -58,11 +58,8 @@ def catalog(request):
     products = Product.objects.filter(is_active=True, in_stock=True).select_related('country')
     countries = Country.objects.all()
     country_filter = request.GET.get('country')
-    search_query = request.GET.get('q', '')
     if country_filter:
         products = products.filter(country__code=country_filter)
-    if search_query:
-        products = products.filter(name__icontains=search_query)
     products_count = products.count()
     paginator = Paginator(products, 12)
     page = request.GET.get('page')
@@ -76,7 +73,6 @@ def catalog(request):
         'page_obj': page_obj,
         'countries': countries,
         'selected_country': country_filter,
-        'search_query': search_query,
         'products_count': products_count,
     })
 
