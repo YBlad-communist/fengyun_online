@@ -31,8 +31,14 @@ class OrderAdmin(admin.ModelAdmin):
     list_display = ('pk', 'name', 'phone', 'pickup_point', 'status', 'total', 'created_at')
     list_filter = ('status', 'created_at')
     search_fields = ('name', 'phone', 'pk')
-    readonly_fields = ('pk', 'created_at', 'total')
+    readonly_fields = ('pk', 'name', 'phone', 'pickup_point', 'status', 'comment', 'total', 'created_at', 'user')
     inlines = [OrderItemInline]
+
+    def has_add_permission(self, request, obj=None):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
 
 
 @admin.register(Product)
